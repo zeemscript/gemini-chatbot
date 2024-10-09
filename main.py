@@ -7,16 +7,21 @@ genai.configure(api_key="AIzaSyCAOvmdRTfN9BCAWcACukXRItenG9t5sBA")
 # Set up the Streamlit page
 st.header("Zeemscript GEMINI Chatbot")
 
+# Sidebar for Chat History
+with st.sidebar:
+    st.title("Your Chat History")
 
+# Initialize chat history if it doesn't exist
+if "chat_history" not in st.session_state:
+    st.session_state["chat_history"] = []
+
+# Chat input
 user_input = st.chat_input("Enter your message...")
 
 # Check if there is a user input
 if user_input:
-    # Append user message to the chat history immediately
+    # Append user message to the chat history
     st.session_state["chat_history"].append({"role": "user", "content": user_input})
-
-    # Display the user's message immediately
-    st.chat_message("user").write(user_input)
 
     # Send user input to Gemini model and get response
     model = genai.GenerativeModel("gemini-1.5-flash")
